@@ -5,7 +5,7 @@ import { api } from '../../../lib/api'
 import { useGoals } from '../hooks/useGoals'
 import { useCreateStandaloneProject } from '../hooks/useProjects'
 import type { Goal, Project, Task } from '../../../types'
-import { Target, FolderOpen, Calendar, Plus, X } from 'lucide-react'
+import { Target, FolderOpen, Calendar, Plus } from 'lucide-react'
 import { Modal } from '../../../components/Modal'
 
 export function GoalsListPage() {
@@ -221,19 +221,19 @@ function CreateProjectModal({
         </button>
         <button
           type="submit"
-          disabled={!title.trim()}
+          disabled={!title.trim() || isLoading}
           style={{
             padding: '8px 16px',
             borderRadius: '8px',
             fontSize: '13px',
             fontWeight: 600,
-            cursor: title.trim() ? 'pointer' : 'not-allowed',
-            background: title.trim() ? '#c4913a' : 'rgba(196,145,58,0.3)',
+            cursor: title.trim() && !isLoading ? 'pointer' : 'not-allowed',
+            background: title.trim() && !isLoading ? '#c4913a' : 'rgba(196,145,58,0.3)',
             color: '#0c0c0d',
             border: 'none',
           }}
         >
-          Create Project
+          {isLoading ? 'Creating…' : 'Create Project'}
         </button>
       </div>
     </form>

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+
 import { api } from '../../../lib/api'
 import { SuggestionCard, Modal } from '../../../components'
-import { Sparkles, Plus, X, FolderOpen } from 'lucide-react'
+import { Sparkles, Plus, X } from 'lucide-react'
 
 type WizardStep = 1 | 2
 
@@ -65,12 +65,6 @@ export function WizardPage() {
   const [newTaskTitle, setNewTaskTitle] = useState('')
 
   const [isSaving, setIsSaving] = useState(false)
-  const [isAttachProjectOpen, setIsAttachProjectOpen] = useState(false)
-
-  const { data: availableProjects } = useQuery({
-    queryKey: ['available_projects'],
-    queryFn: () => api.get<{ id: string; title: string; description: string }[]>('/projects?unattached=true'),
-  })
 
   const improveTitle = async (comment?: string) => {
     setIsTitleLoading(true)
@@ -187,17 +181,6 @@ export function WizardPage() {
     setNewProjectTitle('')
     setNewProjectDesc('')
     setIsAddProjectOpen(false)
-  }
-
-  const attachExistingProject = (project: { id: string; title: string; description: string }) => {
-    if (projects.some(p => p.id === project.id)) return
-    setProjects(prev => [...prev, {
-      id: project.id,
-      title: project.title,
-      description: project.description,
-      tasks: [],
-    }])
-    setIsAttachProjectOpen(false)
   }
 
   const removeProject = (id: string) => {

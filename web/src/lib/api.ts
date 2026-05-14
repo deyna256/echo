@@ -92,7 +92,7 @@ async function doFetch(
   }
 
   if (!(options.headers instanceof Headers)) {
-    headers['Content-Type'] = 'application/json'
+    (headers as Record<string, string>)['Content-Type'] = 'application/json'
   }
 
   log('DEBUG', 'api request', { method: options.method ?? 'GET', path })

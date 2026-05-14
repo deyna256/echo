@@ -10,7 +10,7 @@ interface CalendarTask extends Task {
 }
 
 export function CalendarPage() {
-  const { view, currentDate, setCurrentDate, setTasks } = useCalendar()
+  const { view, currentDate, setTasks } = useCalendar()
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [formTask, setFormTask] = useState<Task | undefined>(undefined)
   const [formInitialDate, setFormInitialDate] = useState<Date | undefined>(undefined)

@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '../../../lib/api'
 import { useGoal } from '../hooks/useGoals'
 import type { Goal, Project, Task } from '../../../types'
-import { ArrowLeft, Pencil, Trash2, Plus, X, Check, Calendar, FolderOpen, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, Pencil, Trash2, Plus, X, FolderOpen, CheckCircle2 } from 'lucide-react'
 
 export function GoalDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -96,20 +96,9 @@ export function GoalDetailPage() {
     },
   })
 
-  const totalTasks = projects?.reduce((sum, p) => sum + (p.task_count || 0), 0) || 0
-  const doneTasks = projects?.reduce((sum, p) => sum + (p.done_count || 0), 0) || 0
+  const totalTasks = projects?.reduce((sum, p) => sum + ((p as any).task_count || 0), 0) || 0
+  const doneTasks = projects?.reduce((sum, p) => sum + ((p as any).done_count || 0), 0) || 0
   const completionPercent = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0
-
-  const getDueText = () => {
-    if (!goal?.target_date) return 'No deadline'
-    const days = Math.ceil((new Date(goal.target_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-    if (days < 0) return `${Math.abs(days)} days overdue`
-    if (days === 0) return 'Due today'
-    if (days === 1) return 'Due tomorrow'
-    if (days < 7) return `Due in ${days} days`
-    if (days < 30) return `Due in ${Math.ceil(days / 7)} weeks`
-    return `Due in ${Math.ceil(days / 30)} months`
-  }
 
   if (isLoading) {
     return (

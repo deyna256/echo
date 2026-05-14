@@ -51,7 +51,7 @@ export function RegisterPage() {
     }
 
     try {
-      await register.mutateAsync({ email, password, name: `${firstName} ${lastName}`.trim() })
+      await register.mutateAsync({ email, password })
     } catch (err: any) {
       setError(err.message || 'Registration failed')
     }

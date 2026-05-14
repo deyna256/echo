@@ -1,0 +1,17 @@
+default:
+    @just --list
+
+test:
+    go test -race -count=1 ./...
+
+type:
+    go vet ./...
+
+style:
+    @test -z "$(gofmt -l .)" || (echo "unformatted files:" && gofmt -l . && exit 1)
+
+lint:
+    golangci-lint run
+
+build:
+    go build ./...

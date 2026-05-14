@@ -1,4 +1,4 @@
-import { Folder, Plus, X, Check, Calendar, Sparkles } from 'lucide-react'
+import { Folder, Plus, Check, Calendar, Sparkles } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '../../../lib/api'
