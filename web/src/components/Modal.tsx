@@ -34,12 +34,6 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
 
   if (!isOpen) return null
 
-  const sizeStyles = {
-    sm: 'max-width: 400px',
-    md: 'max-width: 500px',
-    lg: 'max-width: 640px',
-  }
-
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
       <div

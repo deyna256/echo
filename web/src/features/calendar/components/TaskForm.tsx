@@ -128,8 +128,8 @@ export function TaskForm({ task, initialDate, onClose, onSaved }: TaskFormProps)
           taskId: task.id,
           title: title.trim(),
           description: description.trim() || undefined,
-          scheduled_date: isScheduled ? new Date(`${date}T${startTime}:00`).toISOString() : null,
-          duration_minutes: parseInt(duration, 10) || 60,
+          scheduledDate: isScheduled ? new Date(`${date}T${startTime}:00`).toISOString() : undefined,
+          durationMinutes: parseInt(duration, 10) || 60,
           color: color || undefined,
         })
       } else if (isRecurring && recurringDays.length > 0) {

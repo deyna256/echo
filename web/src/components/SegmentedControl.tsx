@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react'
 
 interface SegmentedControlProps<T extends string> {
   value: T

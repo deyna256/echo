@@ -229,9 +229,9 @@ export function WeekView({
       if (interRef.current !== null) return  // don't zoom while dragging/resizing
       e.preventDefault()
 
-      const rect = el.getBoundingClientRect()
+      const rect = el!.getBoundingClientRect()
       const viewportY = e.clientY - rect.top
-      const ratio = (el.scrollTop + viewportY) / (HOURS.length * currentRHRef.current)
+      const ratio = (el!.scrollTop + viewportY) / (HOURS.length * currentRHRef.current)
 
       scrollLockRef.current = { ratio, viewportY }
       const newIdx = Math.max(0, Math.min(ZOOM_STEPS_H.length - 1,
