@@ -87,7 +87,9 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(authResponse{Token: token, RefreshToken: refreshToken})
+	if err := json.NewEncoder(w).Encode(authResponse{Token: token, RefreshToken: refreshToken}); err != nil {
+		h.log.ErrorContext(r.Context(), "encode register response", slog.String("error", err.Error()))
+	}
 }
 
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
@@ -129,7 +131,9 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(authResponse{Token: token, RefreshToken: refreshToken})
+	if err := json.NewEncoder(w).Encode(authResponse{Token: token, RefreshToken: refreshToken}); err != nil {
+		h.log.ErrorContext(r.Context(), "encode login response", slog.String("error", err.Error()))
+	}
 }
 
 func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
@@ -171,7 +175,9 @@ func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(authResponse{Token: token, RefreshToken: refreshToken})
+	if err := json.NewEncoder(w).Encode(authResponse{Token: token, RefreshToken: refreshToken}); err != nil {
+		h.log.ErrorContext(r.Context(), "encode refresh response", slog.String("error", err.Error()))
+	}
 }
 
 func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
@@ -189,9 +195,11 @@ func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{
+	if err := json.NewEncoder(w).Encode(map[string]interface{}{
 		"id":         user.ID,
 		"email":      user.Email,
 		"created_at": user.CreatedAt,
-	})
+	}); err != nil {
+		h.log.ErrorContext(r.Context(), "encode me response", slog.String("error", err.Error()))
+	}
 }

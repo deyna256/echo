@@ -188,7 +188,7 @@ func (c *MinimaxClient) doChat(ctx context.Context, reqBody chatRequest) (string
 	if err != nil {
 		return "", fmt.Errorf("request: %w", err)
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 
 	var ar chatResponse
 	if err := json.NewDecoder(resp.Body).Decode(&ar); err != nil {

@@ -69,7 +69,9 @@ func (h *NotificationsHandler) list(w http.ResponseWriter, r *http.Request) {
 	resp := make([]notificationResponse, len(notifications))
 	for i, n := range notifications {
 		var payload map[string]any
-		json.Unmarshal(n.Payload, &payload)
+		if err := json.Unmarshal(n.Payload, &payload); err != nil {
+			h.log.ErrorContext(r.Context(), "unmarshal notification payload", slog.String("error", err.Error()))
+		}
 		entityID, _ := payload["entity_id"].(string)
 		title, _ := payload["title"].(string)
 		dueDate, _ := payload["due_date"].(string)

@@ -134,7 +134,9 @@ func (h *AIHandler) context(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	if err := json.NewEncoder(w).Encode(result); err != nil {
+		h.log.ErrorContext(r.Context(), "encode goal context", slog.String("error", err.Error()))
+	}
 }
 
 type chatRequest struct {
@@ -194,12 +196,14 @@ func (h *AIHandler) chat(w http.ResponseWriter, r *http.Request) {
 		h.log.ErrorContext(r.Context(), "list tasks for chat", slog.String("error", err.Error()))
 	}
 
-	h.msgStore.Create(r.Context(), AIMessage{
+	if _, err := h.msgStore.Create(r.Context(), AIMessage{
 		GoalID:  goalID,
 		UserID:  userID,
 		Role:    "user",
 		Content: req.Message,
-	})
+	}); err != nil {
+		h.log.ErrorContext(r.Context(), "store user message", slog.String("error", err.Error()))
+	}
 
 	chatHistory, err := h.msgStore.List(r.Context(), goalID, userID)
 	if err != nil {
@@ -227,18 +231,22 @@ func (h *AIHandler) chat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.msgStore.Create(r.Context(), AIMessage{
+	if _, err := h.msgStore.Create(r.Context(), AIMessage{
 		GoalID:  goalID,
 		UserID:  userID,
 		Role:    "assistant",
 		Content: result.Text,
-	})
+	}); err != nil {
+		h.log.ErrorContext(r.Context(), "store assistant message", slog.String("error", err.Error()))
+	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(chatResponse{
+	if err := json.NewEncoder(w).Encode(chatResponse{
 		Response:    result.Text,
 		Suggestions: result.Suggestions,
-	})
+	}); err != nil {
+		h.log.ErrorContext(r.Context(), "encode chat response", slog.String("error", err.Error()))
+	}
 }
 
 func (h *AIHandler) messagesEndpoint(w http.ResponseWriter, r *http.Request) {
@@ -268,7 +276,9 @@ func (h *AIHandler) messagesEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(msgs)
+	if err := json.NewEncoder(w).Encode(msgs); err != nil {
+		h.log.ErrorContext(r.Context(), "encode messages", slog.String("error", err.Error()))
+	}
 }
 
 func (h *AIHandler) improveGoalTitle(w http.ResponseWriter, r *http.Request) {
@@ -291,7 +301,9 @@ func (h *AIHandler) improveGoalTitle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	if err := json.NewEncoder(w).Encode(result); err != nil {
+		h.log.ErrorContext(r.Context(), "encode improve title result", slog.String("error", err.Error()))
+	}
 }
 
 func (h *AIHandler) improveGoalDescription(w http.ResponseWriter, r *http.Request) {
@@ -314,7 +326,9 @@ func (h *AIHandler) improveGoalDescription(w http.ResponseWriter, r *http.Reques
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	if err := json.NewEncoder(w).Encode(result); err != nil {
+		h.log.ErrorContext(r.Context(), "encode improve description result", slog.String("error", err.Error()))
+	}
 }
 
 func (h *AIHandler) improveProject(w http.ResponseWriter, r *http.Request) {
@@ -337,5 +351,7 @@ func (h *AIHandler) improveProject(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	if err := json.NewEncoder(w).Encode(result); err != nil {
+		h.log.ErrorContext(r.Context(), "encode improve project result", slog.String("error", err.Error()))
+	}
 }

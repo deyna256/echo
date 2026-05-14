@@ -34,13 +34,16 @@ func TestMinimaxClient_Decompose_parsesProjects(t *testing.T) {
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]any{
+		if err := json.NewEncoder(w).Encode(map[string]any{
 			"base_resp": map[string]any{"status_code": 0, "status_msg": "success"},
 			"content": []any{
 				map[string]any{"type": "text", "text": string(payload)},
 			},
 			"usage": map[string]any{"input_tokens": 10, "output_tokens": 246},
-		})
+		}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}))
 	defer srv.Close()
 
@@ -70,7 +73,7 @@ func TestMinimaxClient_Decompose_parsesProjects(t *testing.T) {
 func TestMinimaxClient_Decompose_extractsJSONFromProse(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]any{
+		if err := json.NewEncoder(w).Encode(map[string]any{
 			"base_resp": map[string]any{"status_code": 0},
 			"content": []any{
 				map[string]any{
@@ -79,7 +82,10 @@ func TestMinimaxClient_Decompose_extractsJSONFromProse(t *testing.T) {
 				},
 			},
 			"usage": map[string]any{"input_tokens": 10, "output_tokens": 90},
-		})
+		}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}))
 	defer srv.Close()
 
