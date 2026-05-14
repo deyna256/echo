@@ -34,7 +34,7 @@ func TestBus_Publish_storesEvent(t *testing.T) {
 }
 
 type testAdapter struct {
-	mu    sync.Mutex
+	mu     sync.Mutex
 	events []notifications.Event
 }
 

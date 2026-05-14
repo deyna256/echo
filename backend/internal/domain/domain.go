@@ -57,46 +57,46 @@ type User struct {
 }
 
 type Goal struct {
-	ID          uuid.UUID `json:"id"`
-	UserID      uuid.UUID `json:"user_id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	TargetDate  *time.Time `json:"target_date"`
-	Status      GoalStatus `json:"status"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-}
-
-type Project struct {
 	ID          uuid.UUID  `json:"id"`
-	GoalID      *uuid.UUID `json:"goal_id"`
 	UserID      uuid.UUID  `json:"user_id"`
 	Title       string     `json:"title"`
 	Description string     `json:"description"`
 	TargetDate  *time.Time `json:"target_date"`
+	Status      GoalStatus `json:"status"`
+	CreatedAt   time.Time  `json:"created_at"`
+	UpdatedAt   time.Time  `json:"updated_at"`
+}
+
+type Project struct {
+	ID          uuid.UUID     `json:"id"`
+	GoalID      *uuid.UUID    `json:"goal_id"`
+	UserID      uuid.UUID     `json:"user_id"`
+	Title       string        `json:"title"`
+	Description string        `json:"description"`
+	TargetDate  *time.Time    `json:"target_date"`
 	Status      ProjectStatus `json:"status"`
-	AISuggested bool       `json:"ai_suggested"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	AISuggested bool          `json:"ai_suggested"`
+	CreatedAt   time.Time     `json:"created_at"`
+	UpdatedAt   time.Time     `json:"updated_at"`
 }
 
 type Task struct {
-	ID                    uuid.UUID  `json:"id"`
-	ProjectID             *uuid.UUID `json:"project_id"`
-	UserID                uuid.UUID  `json:"user_id"`
-	Title                 string     `json:"title"`
-	Description           string     `json:"description"`
-	ScheduledDate         *time.Time `json:"scheduled_date"`
-	DurationMinutes       int        `json:"duration_minutes"`
-	Status                TaskStatus `json:"status"`
-	AISuggested           bool       `json:"ai_suggested"`
-	Position              int        `json:"position"`
-	Color                 *string    `json:"color,omitempty"`
-	RecurringTemplateID   *uuid.UUID `json:"recurring_template_id,omitempty"`
-	RecurringEventID      *uuid.UUID `json:"recurring_event_id,omitempty"`
-	OriginalStartTime     *time.Time `json:"original_start_time,omitempty"`
-	CreatedAt             time.Time  `json:"created_at"`
-	UpdatedAt             time.Time  `json:"updated_at"`
+	ID                  uuid.UUID  `json:"id"`
+	ProjectID           *uuid.UUID `json:"project_id"`
+	UserID              uuid.UUID  `json:"user_id"`
+	Title               string     `json:"title"`
+	Description         string     `json:"description"`
+	ScheduledDate       *time.Time `json:"scheduled_date"`
+	DurationMinutes     int        `json:"duration_minutes"`
+	Status              TaskStatus `json:"status"`
+	AISuggested         bool       `json:"ai_suggested"`
+	Position            int        `json:"position"`
+	Color               *string    `json:"color,omitempty"`
+	RecurringTemplateID *uuid.UUID `json:"recurring_template_id,omitempty"`
+	RecurringEventID    *uuid.UUID `json:"recurring_event_id,omitempty"`
+	OriginalStartTime   *time.Time `json:"original_start_time,omitempty"`
+	CreatedAt           time.Time  `json:"created_at"`
+	UpdatedAt           time.Time  `json:"updated_at"`
 }
 
 type RecurringTemplate struct {
@@ -113,19 +113,19 @@ type RecurringTemplate struct {
 }
 
 type Notification struct {
-	ID        uuid.UUID       `json:"id"`
-	UserID    uuid.UUID       `json:"user_id"`
+	ID        uuid.UUID        `json:"id"`
+	UserID    uuid.UUID        `json:"user_id"`
 	Type      NotificationType `json:"type"`
-	Payload   []byte          `json:"payload"`
-	ReadAt    *time.Time      `json:"read_at"`
-	CreatedAt time.Time       `json:"created_at"`
+	Payload   []byte           `json:"payload"`
+	ReadAt    *time.Time       `json:"read_at"`
+	CreatedAt time.Time        `json:"created_at"`
 }
 
 type AISuggestion struct {
-	ID        uuid.UUID       `json:"id"`
-	UserID    uuid.UUID       `json:"user_id"`
-	GoalID    uuid.UUID       `json:"goal_id"`
-	Payload   []byte          `json:"payload"`
+	ID        uuid.UUID        `json:"id"`
+	UserID    uuid.UUID        `json:"user_id"`
+	GoalID    uuid.UUID        `json:"goal_id"`
+	Payload   []byte           `json:"payload"`
 	Status    SuggestionStatus `json:"status"`
-	CreatedAt time.Time       `json:"created_at"`
+	CreatedAt time.Time        `json:"created_at"`
 }

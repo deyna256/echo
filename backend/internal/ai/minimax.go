@@ -54,8 +54,8 @@ type chatResponse struct {
 	Role    string `json:"role"`
 	Model   string `json:"model"`
 	Content []struct {
-		Type   string `json:"type"`
-		Text   string `json:"text,omitempty"`
+		Type string `json:"type"`
+		Text string `json:"text,omitempty"`
 	} `json:"content"`
 	Usage struct {
 		InputTokens  int `json:"input_tokens"`
@@ -153,9 +153,9 @@ Return ONLY JSON:
 
 func (c *MinimaxClient) improve(ctx context.Context, prompt string) (ImproveResponse, error) {
 	reqBody := chatRequest{
-		Model:     defaultModel,
-		Messages:  []message{{Role: "user", Content: prompt}},
-		MaxTokens: 1024,
+		Model:          defaultModel,
+		Messages:       []message{{Role: "user", Content: prompt}},
+		MaxTokens:      1024,
 		ResponseFormat: &responseFormat{Type: "json_object"},
 	}
 
@@ -203,8 +203,8 @@ func (c *MinimaxClient) doChat(ctx context.Context, reqBody chatRequest) (string
 }
 
 func extractText(content []struct {
-	Type   string `json:"type"`
-	Text   string `json:"text,omitempty"`
+	Type string `json:"type"`
+	Text string `json:"text,omitempty"`
 }) string {
 	var text string
 	for _, c := range content {
@@ -230,9 +230,9 @@ func parseJSONResponse[T any](text string) (T, error) {
 }
 
 type GoalContext struct {
-	Goal     domain.Goal     `json:"goal"`
+	Goal     domain.Goal      `json:"goal"`
 	Projects []domain.Project `json:"projects"`
-	Tasks    []domain.Task   `json:"tasks"`
+	Tasks    []domain.Task    `json:"tasks"`
 }
 
 func (c *MinimaxClient) Chat(ctx context.Context, gc GoalContext, messages []ChatMessage) (ChatResponse, error) {
@@ -250,9 +250,9 @@ func (c *MinimaxClient) Chat(ctx context.Context, gc GoalContext, messages []Cha
 	}
 
 	reqBody := chatRequest{
-		Model:     defaultModel,
-		Messages:  msgs,
-		MaxTokens: 2048,
+		Model:          defaultModel,
+		Messages:       msgs,
+		MaxTokens:      2048,
 		ResponseFormat: &responseFormat{Type: "json_object"},
 	}
 
@@ -355,9 +355,9 @@ func (c *MinimaxClient) Decompose(ctx context.Context, goal domain.Goal) (Sugges
 	prompt := buildDecomposePrompt(goal)
 
 	reqBody := chatRequest{
-		Model:     defaultModel,
-		Messages:  []message{{Role: "user", Content: prompt}},
-		MaxTokens: 4096,
+		Model:          defaultModel,
+		Messages:       []message{{Role: "user", Content: prompt}},
+		MaxTokens:      4096,
 		ResponseFormat: &responseFormat{Type: "json_object"},
 	}
 

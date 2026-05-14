@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/lbc/echo/internal/api"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/lbc/echo/internal/api"
 )
 
 type AIMessageStore struct {

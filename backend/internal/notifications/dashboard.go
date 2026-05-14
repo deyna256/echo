@@ -23,9 +23,9 @@ func NewDashboardAdapter(store notificationStore) *DashboardAdapter {
 
 func (a *DashboardAdapter) Notify(ctx context.Context, e Event) error {
 	payload, _ := json.Marshal(map[string]any{
-		"entity_id":       e.EntityID.String(),
-		"title":           e.Title,
-		"scheduled_date":  e.ScheduledDate.Format(time.RFC3339),
+		"entity_id":      e.EntityID.String(),
+		"title":          e.Title,
+		"scheduled_date": e.ScheduledDate.Format(time.RFC3339),
 	})
 	n := domain.Notification{
 		ID:        uuid.New(),

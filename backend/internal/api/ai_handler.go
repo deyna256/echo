@@ -13,9 +13,9 @@ import (
 )
 
 type GoalWithContext struct {
-	Goal     domain.Goal     `json:"goal"`
+	Goal     domain.Goal      `json:"goal"`
 	Projects []domain.Project `json:"projects"`
-	Tasks    []domain.Task   `json:"tasks"`
+	Tasks    []domain.Task    `json:"tasks"`
 }
 
 type AIMessage struct {
@@ -45,14 +45,14 @@ type GoalGetter interface {
 }
 
 type AIHandler struct {
-	goals    GoalGetter
-	projects ProjectLister
-	tasks    TaskLister
-	msgStore AIMessageStore
-	ai       *ai.MinimaxClient
+	goals     GoalGetter
+	projects  ProjectLister
+	tasks     TaskLister
+	msgStore  AIMessageStore
+	ai        *ai.MinimaxClient
 	jwtSecret string
-	log      *slog.Logger
-	mux      *http.ServeMux
+	log       *slog.Logger
+	mux       *http.ServeMux
 }
 
 func NewAIHandler(

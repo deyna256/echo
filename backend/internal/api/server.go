@@ -50,4 +50,3 @@ func loggingMiddleware(next http.Handler, log *slog.Logger) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
-

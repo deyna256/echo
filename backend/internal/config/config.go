@@ -14,7 +14,7 @@ type Config struct {
 	MinimaxAPIKey   string
 	MinimaxBaseURL  string
 	JWTTokenTTL     time.Duration
-	JWTRefreshTTL    time.Duration
+	JWTRefreshTTL   time.Duration
 	PollIntervalSec int
 }
 
@@ -26,7 +26,7 @@ func FromEnv() Config {
 		MinimaxAPIKey:   mustEnv("MINIMAX_API_KEY"),
 		MinimaxBaseURL:  env("MINIMAX_BASE_URL", "https://api.minimax.chat/v1/text/chatcompletion_pro"),
 		JWTTokenTTL:     15 * time.Minute,
-		JWTRefreshTTL:    7 * 24 * time.Hour,
+		JWTRefreshTTL:   7 * 24 * time.Hour,
 		PollIntervalSec: envInt("POLL_INTERVAL_SEC", 30),
 	}
 }
