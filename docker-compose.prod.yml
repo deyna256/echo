@@ -1,0 +1,34 @@
+services:
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./web/dist:/srv:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - DOMAIN=${DOMAIN:-}
+    depends_on:
+      app:
+        condition: service_started
+
+  app:
+    build:
+      context: .
+    environment:
+      - DATABASE_URL=postgres://echo:secret@postgres:5432/echo?sslmode=disable
+      - JWT_SECRET=${JWT_SECRET}
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - MINIMAX_BASE_URL=https://api.minimax.io/anthropic/v1
+      - POLL_INTERVAL_SEC=${POLL_INTERVAL_SEC:-30}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

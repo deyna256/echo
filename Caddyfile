@@ -1,0 +1,21 @@
+:80 {
+    @notApi {
+        not {
+            path /api/*
+        }
+    }
+
+    handle /api/* {
+        reverse_proxy app:8000
+    }
+
+    handle /events/* {
+        reverse_proxy app:8000
+    }
+
+    handle @notApi {
+        root * /srv
+        try_files {path} /index.html
+        file_server
+    }
+}

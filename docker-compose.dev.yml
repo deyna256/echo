@@ -1,0 +1,27 @@
+services:
+  vite:
+    image: node:20-alpine
+    working_dir: /src/web
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./web:/src/web
+    command: >
+      sh -c "npm install && npm run dev -- --host"
+    environment:
+      - NODE_ENV=development
+
+  app:
+    build:
+      context: .
+    environment:
+      - DATABASE_URL=postgres://echo:secret@postgres:5432/echo?sslmode=disable
+      - JWT_SECRET=${JWT_SECRET}
+      - MINIMAX_API_KEY=${MINIMAX_API_KEY}
+      - MINIMAX_BASE_URL=https://api.minimax.io/anthropic/v1
+      - POLL_INTERVAL_SEC=${POLL_INTERVAL_SEC:-30}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes: {}

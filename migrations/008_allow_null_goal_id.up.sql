@@ -1,0 +1,1 @@
+ALTER TABLE projects ALTER COLUMN goal_id DROP NOT NULL;
